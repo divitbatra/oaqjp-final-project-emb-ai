@@ -11,15 +11,25 @@ def emotion_detector(text_to_analyse):
     emotion_dict = formatted_response['emotionPredictions'][0]['emotion']
     dominant_emotion_score = 0
     dominant_emotion = ''
-    for emotion in emotion_dict:
-        if dominant_emotion_score < emotion_dict[emotion]:
-            dominant_emotion_score = emotion_dict[emotion]
-            dominant_emotion = emotion
-    return {
-            'anger': emotion_dict['anger'],
-            'disgust': emotion_dict['disgust'],
-            'fear': emotion_dict['fear'],
-            'joy': emotion_dict['joy'],
-            'sadness': emotion_dict['sadness'],
-            'dominant_emotion': dominant_emotion
-            }  
+    if response.status_code == 200:
+        for emotion in emotion_dict:
+            if dominant_emotion_score < emotion_dict[emotion]:
+                dominant_emotion_score = emotion_dict[emotion]
+                dominant_emotion = emotion
+        return {
+                'anger': emotion_dict['anger'],
+                'disgust': emotion_dict['disgust'],
+                'fear': emotion_dict['fear'],
+                'joy': emotion_dict['joy'],
+                'sadness': emotion_dict['sadness'],
+                'dominant_emotion': dominant_emotion
+                }  
+    elif response.status_code == 400:
+        return {
+                'anger': None,
+                'disgust': None,
+                'fear': None,
+                'joy': None,
+                'sadness': None,
+                'dominant_emotion': None
+                }  

@@ -1,5 +1,5 @@
-''' Executing this function initiates the application of sentiment
-    analysis to be executed over the Flask channel and deployed on
+''' Executing this function initiates the application of emotion analysis
+    to be executed over the Flask channel and deployed on
     localhost:5000.
 '''
 from flask import Flask, render_template, request
@@ -18,12 +18,16 @@ def sent_detector():
     sadness = response['sadness']
     fear = response['fear']
     dominant_emotion = response['dominant_emotion']
-    return f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. The dominant emotion is {dominant_emotion}."
+    if dominant_emotion == None:
+        return "Invalid text! Please try again!"
+    else:
+        return f"For the given statement, the system response is 'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. The dominant emotion is {dominant_emotion}."
 
 @app.route("/")
 def render_index_page():
     """renders the index.html file"""
     return render_template('index.html')
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
