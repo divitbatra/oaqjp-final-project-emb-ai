@@ -12,7 +12,7 @@ def sent_detector():
     """Takes the arguement and returns the response from detector"""
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)    
-    if response['dominant_emotion'] == None:
+    if response == None:
         return "Invalid text! Please try again!"
     else:
         anger = response['anger']
